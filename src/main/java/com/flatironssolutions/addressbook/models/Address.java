@@ -41,12 +41,12 @@ public class Address {
     }
     
     @Column(name = "person_lastname")
-    private String personLastname;
+    private String personLastName;
     public String getPersonLastname() {
-        return personLastname;
+        return personLastName;
     }
     public void setPersonLastname(String personLastname) {
-        this.personLastname = personLastname;
+        this.personLastName = personLastname;
     }
     
     @Column(name = "street_name")
@@ -91,7 +91,7 @@ public class Address {
         int result;
         result = id;
         result = 31 * result + (personName != null ? personName.hashCode() : 0);
-        result = 31 * result + (personLastname != null ? personLastname.hashCode() : 0);
+        result = 31 * result + (personLastName != null ? personLastName.hashCode() : 0);
         result = 31 * result + (streetName != null ? streetName.hashCode() : 0);
         result = 31 * result + (zipCode != null ? zipCode.hashCode() : 0);
         result = 31 * result + (city != null ? city.hashCode() : 0);

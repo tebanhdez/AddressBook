@@ -21,10 +21,10 @@
 
     <dependencies>
         <dependency>
-          <groupId>junit</groupId>
-          <artifactId>junit</artifactId>
-          <version>3.8.1</version>
-          <scope>test</scope>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.11</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.glassfish.jersey.containers</groupId>
@@ -91,6 +91,12 @@
             <artifactId>commons-lang</artifactId>
             <version>2.6</version>
         </dependency>
+        <dependency>
+          <groupId>javax.servlet</groupId>
+          <artifactId>javax.servlet-api</artifactId>
+          <version>3.0.1</version>
+          <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -135,7 +141,16 @@
                     <war>${project.build.directory}/${project.build.finalName}.war</war>
                 </configuration>
             </plugin>
-        </plugins>
+             <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                  <port>9090</port>
+                  <path>/</path>
+                </configuration>
+              </plugin>
+            </plugins>
     </build>
 
     <properties>
