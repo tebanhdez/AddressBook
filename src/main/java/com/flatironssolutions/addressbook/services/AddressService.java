@@ -29,8 +29,12 @@ public class AddressService {
 
     public void deleteAllAddress() {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction transaction = session.getTransaction();
+        transaction.begin();
+        if(transaction.getStatus().equals(TransactionStatus.NOT_ACTIVE))
+            LOGGER.debug(" >>> Transaction close.");
         session.createQuery("delete from Address").executeUpdate();
-        //session.close();
+        transaction.commit();
     }
 
     public List<Address> getAllAddress() {
@@ -59,8 +63,10 @@ public class AddressService {
 
     public Address getAddress(int id) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Transaction transaction = session.beginTransaction();
+        transaction.begin();
         Address address = (Address) session.get(Address.class, id);
-        //session.close();
+        transaction.commit();
         return address;
     }
 
@@ -75,10 +81,18 @@ public class AddressService {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Address address = getAddress(id);
         if (address != null) {
+            if(!session.isOpen()){
+                LOGGER.debug(" >>> Session close.");
+                LOGGER.debug(" >>> Reopening session.");
+                session = HibernateUtil.getSessionFactory().openSession();
+            }
+            Transaction transaction = session.getTransaction();
+            transaction.begin();
+            if(transaction.getStatus().equals(TransactionStatus.NOT_ACTIVE))
+                LOGGER.debug(" >>> Transaction close.");
             session.delete(address);
-            session.flush();
+            transaction.commit();
         }
-        //session.close();
         return address;
     }
 }
